@@ -1,76 +1,58 @@
-//  DifficultyController.swift
+//  ViewController.swift
 //  Pokemon Guessing Game
 //
-//  Created by Christopher Watson on 3/20/25.
+//  Created by Christopher Watson on 3/13/25.
 //
-// Our File For The Second Screen: Our Controller For Difficulty.
+// Our File For The First Screen: Our Start Button Screen.
 
 import UIKit
 
-class DifficultyController: UIViewController {
+class ViewController: UIViewController {
     // Main Variables
-    let easy_button   = UIButton()
-    let medium_button = UIButton()
-    let hard_button   = UIButton()
+    let start_button = UIButton()
+    let welcome = UILabel()
     
     // Main Loading Function
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .white
-        createButtons()
+        buttonCreator()
+        welcomeCreator()
+        view.backgroundColor = .white
     }
     
-    // Function 1: Creates all 3 buttons (easy, medium, and hard), sets all of their parameters, and gives them logic.
-    func createButtons() {
-        // Easy Button
-        easy_button.frame = CGRect(x: 50, y: 150, width: 300, height: 80)
-        easy_button.setTitle("Easy", for: .normal)
-        easy_button.backgroundColor = .systemGreen
-        easy_button.layer.cornerRadius = 10
-        view.addSubview(easy_button)
+    // Function 1: Create our button and set parameters.
+    func buttonCreator() {
+        start_button.frame = CGRect(x: 50, y: 350, width: 300, height: 100)
+        start_button.setTitle("START", for: .normal)
+        start_button.backgroundColor = .systemRed
+        start_button.layer.cornerRadius = 10
+        view.addSubview(start_button)
         
-        // Calls 'go to guessing' function.
-        easy_button.addTarget(self, action: #selector(goToGuessing), for: .touchUpInside)
-        
-        // Medium Button
-        medium_button.frame = CGRect(x: 50, y: 400, width: 300, height: 80)
-        medium_button.setTitle("Medium", for: .normal)
-        medium_button.backgroundColor = .systemOrange
-        medium_button.layer.cornerRadius = 10
-        view.addSubview(medium_button)
-        
-        // Calls 'go to guessing' function.
-        medium_button.addTarget(self, action: #selector(goToGuessing), for: .touchUpInside)
-
-        
-        // Hard Button
-        hard_button.frame = CGRect(x: 50, y: 650, width: 300, height: 80)
-        hard_button.setTitle("Hard", for: .normal)
-        hard_button.backgroundColor = .systemRed
-        hard_button.layer.cornerRadius = 10
-        view.addSubview(hard_button)
-        
-        // Calls 'go to guessing' function.
-        hard_button.addTarget(self, action: #selector(goToGuessing), for: .touchUpInside)
+        // Calls @objc func startButtonPress()
+        start_button.addTarget(self, action: #selector(startButtonPress), for: .touchUpInside)
     }
     
-    // Objc Function 1: Our logic for which difficulty controller to send the player to, depending on which button is clicked.
-    @objc func goToGuessing(sender: UIButton) {
-        var guessingVC: UIViewController
+    // Function 2: Create our welcome label and set parameters.
+    func welcomeCreator() {
+        welcome.frame = CGRect(x: 50, y: 130, width: 300, height: 100)
+        welcome.text = "Welcome to the Pokémon Guessing Game!"
+        welcome.backgroundColor = .white
+        welcome.textColor = .black
+        welcome.textAlignment = .center
+        welcome.font = UIFont.systemFont(ofSize: 24, weight: .semibold)
+        welcome.layer.cornerRadius = 12
+        welcome.layer.masksToBounds = true
+        welcome.numberOfLines = 0
+        welcome.adjustsFontSizeToFitWidth = true
+        view.addSubview(welcome)
+    }
+    
+    // Objc Function 1: Logic for what happens when our button is pressed.
+    @objc func startButtonPress() {
+        let difficultyVC = DifficultyController()
         
-        // If statement for deciding which button is clicked.
-        if sender == easy_button {
-            guessingVC = GuessingControllerEasy()
-        } else if sender == medium_button {
-            guessingVC = GuessingControllerMedium()
-        } else if sender == hard_button {
-            guessingVC = GuessingControllerHard()
-        } else {
-            guessingVC = GuessingControllerEasy()
-        }
-        
-        // Navigates to our last screen: Our main game.
-        self.navigationController?.pushViewController(guessingVC, animated: true)
+        // Navigates to our second screen: The Difficulty Controller.
+        self.navigationController?.pushViewController(difficultyVC, animated: true)
     }
     
 } // End Of File
