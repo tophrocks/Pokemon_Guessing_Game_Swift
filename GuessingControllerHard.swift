@@ -14,7 +14,7 @@ class GuessingControllerHard: UIViewController {
     let submitButton           = UIButton()
     let repeatButton           = UIButton()
     let timerLabel             = UILabel()
-    let pokemon_list: [String] = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff"] // List of pokemon to choose from.
+    let pokemon_list: [String] = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff", "alcremie"] // List of pokemon to choose from.
     
     var pokemon_chosen: String?
     var timeLeft = 10
@@ -101,8 +101,18 @@ class GuessingControllerHard: UIViewController {
     // Function 7: Used to automatically submit your guess when time runs out.
     func timeIsUp() { submitGuess() }
     
-    // Function 8: Calls a random pokemon element from our list of pokemon.
-    func randomPokemon() -> String { return pokemon_list.randomElement() ?? "pikachu" }
+    // Function 6: Calls a random pokemon element from our list of pokemon. (Verifys that the pokemon aren't used twice in a row).
+    func randomPokemon() -> String {
+        if pokemon_chosen == "" {
+            return pokemon_list.randomElement() ?? "pikachu"
+        } else {
+            var temp_list = pokemon_list
+            if let index = temp_list.firstIndex(of: pokemon_chosen ?? "pikachu") {
+                temp_list.remove(at: index)
+            }
+            return temp_list.randomElement() ?? "pikachu"
+        }
+    }
     
     // Objc Function 1: Updates the timer every second that goes by, counting down until 0. Once it reaches 0, it ends the game.
     @objc func updateTimer() {
@@ -134,6 +144,9 @@ class GuessingControllerHard: UIViewController {
     }
     
     // Objc Function 3: Automatically resets the game when repeat button is pressed.
-    @objc func sumbitRepeat() { setupImageView() }
+    @objc func sumbitRepeat() {
+        setupImageView()
+        guessTextField.text = "" // Resets our guess textfield to nothing, so the game feels smoother.
+    }
     
 } // End Of File
