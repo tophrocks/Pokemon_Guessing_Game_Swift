@@ -13,7 +13,7 @@ class GuessingControllerMedium: UIViewController {
     let pokemonImageView       = UIImageView()
     let repeatButton           = UIButton()
     let timerLabel             = UILabel()
-    let pokemon_list: [String] = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff"] // List of Pokemon to choose from.
+    let pokemon_list: [String] = ["pikachu", "charizard", "bulbasaur", "squirtle", "jigglypuff", "alcremie"] // List of Pokemon to choose from.
     
     var pokemon_chosen: String?
     var timeLeft = 5
@@ -103,8 +103,18 @@ class GuessingControllerMedium: UIViewController {
         view.addSubview(timerLabel)
     }
     
-    // Function 6: Calls a random pokemon element from our list of pokemon.
-    func randomPokemon() -> String { return pokemon_list.randomElement() ?? "pikachu" }
+    // Function 6: Calls a random pokemon element from our list of pokemon. (Verifys that the pokemon aren't used twice in a row).
+    func randomPokemon() -> String {
+        if pokemon_chosen == "" {
+            return pokemon_list.randomElement() ?? "pikachu"
+        } else {
+            var temp_list = pokemon_list
+            if let index = temp_list.firstIndex(of: pokemon_chosen ?? "pikachu") {
+                temp_list.remove(at: index)
+            }
+            return temp_list.randomElement() ?? "pikachu"
+        }
+    }
     
     // Function 7: Timer logic, starts the timer and begins to countdown.
     func startTimer() {
